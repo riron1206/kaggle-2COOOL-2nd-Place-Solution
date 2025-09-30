@@ -224,9 +224,9 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v5.sh
 
-    ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v6.sh
-
     ./merge_submit_2csv.sh
+
+    ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v6.sh
     ```
 
 5. **Ensemble submission.csv (Qwen3-Next-80B)**

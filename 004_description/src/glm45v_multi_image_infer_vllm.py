@@ -403,7 +403,7 @@ def detect_contradictions(
     counts_json: Dict[str, Any], texts_json: Dict[str, Any]
 ) -> List[str]:
     """
-    counts_json（数値系8キー）と texts_json（テキスト2キー）の内容に矛盾がないかを簡易ルールでチェックし、矛盾メッセージのリストを返します（空リストなら矛盾なし）。
+    Check for inconsistencies between counts_json (8 numeric keys) and texts_json (2 text keys) using simple rules, and return a list of issue messages (empty list means no contradiction).
     """
     issues: List[str] = []
 
@@ -574,62 +574,62 @@ def main() -> None:
         "--images",
         nargs="+",
         default=INPUT_IMAGES,
-        help="入力画像へのパスを複数指定（.jpg/.png 等）",
+        help="Provide one or more input image paths (.jpg/.png, etc.)",
     )
     ap.add_argument(
         "--reconcile",
         action="store_true",
-        help="PROMPT_COUNT と PROMPT_TEXT の2段推論後、矛盾時に再統合推論する",
+        help="Run reconciliation after two-stage inference (PROMPT_COUNT + PROMPT_TEXT) when contradictions are found",
     )
     ap.add_argument(
         "--tmp_json",
         default=None,
-        help="中間JSONを保存するパス（counts/texts/reconciled と各content/reasoning_contentを保存）",
+        help="Path to save intermediate JSON (counts/texts/reconciled and each content/reasoning_content)",
     )
-    ap.add_argument("--output_json", default=OUTPUT_JSON, help="保存先 JSON")
+    ap.add_argument("--output_json", default=OUTPUT_JSON, help="Output JSON path")
     ap.add_argument(
         "--api_base",
         default=DEFAULT_API_BASE,
-        help="vLLM OpenAI 互換 API のベース URL（例: http://localhost:8000/v1）",
+        help="Base URL of the vLLM OpenAI-compatible API (e.g., http://localhost:8000/v1)",
     )
     ap.add_argument(
         "--api_key",
         default=os.getenv("VLLM_API_KEY", "EMPTY"),
-        help="API キー（未使用環境では 'EMPTY'）",
+        help="API key (use 'EMPTY' if not required)",
     )
     ap.add_argument(
         "--model",
         default=DEFAULT_MODEL,
-        help="served-model-name と合わせる（例: glm-4.5v）",
+        help="Model name to query; match your served model (e.g., glm-4.5v)",
     )
     ap.add_argument(
         "--send_mode",
         choices=["file_url", "base64"],
         default="file_url",
-        help="画像の渡し方: file_url= file:///... を渡す / base64= data:image/...;base64,... を渡す",
+        help="How to send images: file_url passes file:///..., base64 passes data:image/...;base64,...",
     )
-    ap.add_argument("--max_tokens", type=int, default=8192, help="生成トークン上限")
-    ap.add_argument("--temperature", type=float, default=0.2, help="サンプリング温度")
+    ap.add_argument("--max_tokens", type=int, default=8192, help="Maximum generated tokens")
+    ap.add_argument("--temperature", type=float, default=0.2, help="Sampling temperature")
     ap.add_argument(
         "--repetition_penalty",
         type=float,
         default=1.0,
-        help="繰り返しペナルティ（>1 で抑制）",
+        help="Repetition penalty (>1 suppresses repetition)",
     )
-    ap.add_argument("--top_p", type=float, default=0.95, help="核サンプリング上限確率")
-    ap.add_argument("--top_k", type=int, default=0, help="上位 k 語からサンプリング")
+    ap.add_argument("--top_p", type=float, default=0.95, help="Top-p (nucleus sampling threshold)")
+    ap.add_argument("--top_k", type=int, default=0, help="Top-k sampling")
     ap.add_argument(
         "--timeout", type=float, default=600.0, help="HTTP リクエストのタイムアウト秒"
     )
     ap.add_argument(
         "--json_mode",
         action="store_true",
-        help="response_format={'type':'json_object'} を有効化",
+        help="Enable response_format={'type':'json_object'}",
     )
     ap.add_argument(
         "--counts_only",
         action="store_true",
-        help="Counts 推論のみ実行し、Counts キーだけを出力して終了",
+        help="Run Counts inference only and output only the Counts keys, then exit",
     )
     args = ap.parse_args()
 

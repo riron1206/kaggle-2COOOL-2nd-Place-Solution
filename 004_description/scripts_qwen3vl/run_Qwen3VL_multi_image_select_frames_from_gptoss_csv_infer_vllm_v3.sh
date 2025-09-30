@@ -88,7 +88,7 @@ for VID_ID in $(seq 0 660); do
   if [ -f "$GPTOSS_CSV" ] && [ -d "$IMG_DIR" ]; then
     run_select_and_infer "$GPTOSS_CSV" "$IMG_DIR" "$PRE_FRAMES" "$POST_FRAMES" "$SKIP_IF_EXISTS"
   else
-    echo "[Warn] スキップ: CSV または 画像DIR が無い: id=$VID_ID (CSV=$GPTOSS_CSV, IMG_DIR=$IMG_DIR)" >&2
+    echo "[Warn]: id=$VID_ID (CSV=$GPTOSS_CSV, IMG_DIR=$IMG_DIR)" >&2
   fi
 done
 

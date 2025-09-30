@@ -129,12 +129,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument(
         "--root",
-        default="/home/shingo_yokoi/workspace/k/2coool_v2/sandbox/results/run_glm45v_multi_image_select_frames_from_csv_infer_vllm/**/",
+        default="./results/run_glm45v_multi_image_select_frames_from_csv_infer_vllm/**/",
         help="Root directory to recursively search for ans.json",
     )
     ap.add_argument(
         "--output_csv",
-        default="/home/shingo_yokoi/workspace/k/2coool_v2/sandbox/results/run_glm45v_multi_image_select_frames_from_csv_infer_vllm/submit.csv",
+        default="./results/run_glm45v_multi_image_select_frames_from_csv_infer_vllm/submit.csv",
         help="Path to output CSV",
     )
     args = ap.parse_args()

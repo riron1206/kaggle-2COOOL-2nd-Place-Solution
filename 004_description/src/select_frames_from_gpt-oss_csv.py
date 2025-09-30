@@ -144,7 +144,6 @@ def main() -> None:
     if not rows:
         raise SystemExit("No valid frame rows in the CSV")
 
-    # gpt-oss 形式: 指定 video の frame をトリガーにする
     trigger_idx: int
     video_id: Optional[int] = cast(Optional[int], args.video_id)
     if video_id is None:

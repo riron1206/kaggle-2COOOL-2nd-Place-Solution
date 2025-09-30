@@ -61,7 +61,6 @@ run_select_and_infer() {
   local -a IMAGES
   mapfile -t IMAGES < "$FRAMES_FILE"
 
-  # Self-Consistency を有効にした推論
   python ../src/glm45v_multi_image_infer_vllm_sc.py \
     --images "${IMAGES[@]}" \
     --api_base "$API_BASE" \
