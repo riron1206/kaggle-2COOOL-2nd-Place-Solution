@@ -61,7 +61,7 @@ The preprocessing scripts assume these directories:
 - Output frames: `001_video2frames/gdrive_png/...`
 - VStack outputs: `001_video2frames/mp4_vstack/*.mp4` and frames under `mp4_vstack_png/...`
 
-Example (after step 1):
+Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-Nth-Place-Solution?tab=readme-ov-file#solution-pipeline)):
 
 ```
 001_video2frames/
