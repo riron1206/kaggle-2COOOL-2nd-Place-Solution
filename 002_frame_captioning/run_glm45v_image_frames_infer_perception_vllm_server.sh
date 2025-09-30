@@ -4,7 +4,7 @@ INPUT_BASE="../001_video2frames/mp4_vstack_png/mp4_vstack"
 OUT_DIR="./results/glm45v_image_frames_infer_perception_vllm_server"
 mkdir -p "$OUT_DIR"
 
-LOG_FILE="sbatch_outputs/glm45v_image_frames_infer_perception_vllm_server.log"
+LOG_FILE="logs/glm45v_image_frames_infer_perception_vllm_server.log"
 mkdir -p "$(dirname "$LOG_FILE")"
 rm -rf "$LOG_FILE"
 

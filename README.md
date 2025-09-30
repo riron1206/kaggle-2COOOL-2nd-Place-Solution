@@ -164,7 +164,7 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     Run
     ```bash
-    source ./vllm_gpt-oss/.venv/bin/activate
+    source ./vllm_glm45v/.venv/bin/activate
 
     cd 003_frame_detection
 
