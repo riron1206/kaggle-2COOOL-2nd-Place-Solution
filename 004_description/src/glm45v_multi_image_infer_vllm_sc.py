@@ -13,7 +13,7 @@ from statistics import median
 
 
 INPUT_IMAGES: List[str] = [
-    "/home/shingo_yokoi/workspace/k/2coool/dl_data/gdrive/images/0.jpg",
+    "gdrive/images/0.jpg",
 ]
 OUTPUT_JSON: str = "vllm_multi_image_result.json"
 DEFAULT_API_BASE: str = "http://localhost:8000/v1"

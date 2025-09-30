@@ -13,8 +13,8 @@ from tqdm import tqdm
 SERVER = "http://localhost:8000/v1/chat/completions"
 MODEL = "/data/models/openai/gpt-oss-120b"
 
-INPUT_CSV_DIR = "/home/user_00006_821839/workspace/k/2coool/gaggle_cp/glm45v_image_frames_infer_perception_vllm_server"
-OUTPUT_CSV = "/home/user_00006_821839/workspace/k/2coool/work3/results/gpt-oss-120b_infer_vllm_sc_from_frames_csv.csv"
+INPUT_CSV_DIR = "../002_frame_captioning/glm45v_image_frames_infer_perception_vllm_server"
+OUTPUT_CSV = "./results/gpt-oss-120b_infer_vllm_sc_from_frames_csv.csv"
 
 SYSTEM = """Reasoning: high""".strip()
 PROMPT_BASE = f"""

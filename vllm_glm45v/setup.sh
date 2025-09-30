@@ -1,6 +1,5 @@
 #!/bin/bash
 
-module purge
 module load gc1/cuda/12.4
 
 uv venv -p python3.10
