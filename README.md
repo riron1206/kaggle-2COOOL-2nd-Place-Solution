@@ -1,10 +1,10 @@
 # kaggle 2COOOL Nth Place Solution
 
-competition: https://www.kaggle.com/competitions/2coool
+- competition: https://www.kaggle.com/competitions/2coool
 
-arxiv paper: https://arxiv.org/abs/XXX
+- arxiv paper: https://arxiv.org/abs/XXX
 
-solution summary: https://www.kaggle.com/competitions/2coool/discussion/XXX
+- solution summary: https://www.kaggle.com/competitions/2coool/discussion/XXX
 
 ## Hardware
 
@@ -15,11 +15,94 @@ solution summary: https://www.kaggle.com/competitions/2coool/discussion/XXX
 
 ## Software
 
-- Python 3.10 / 3.12
-- CUDA Version 12.4 / 12.8.1
-- nvidia Driver Version 535.183.01 / 570.172.08
+- Python 3.10 and 3.12
+- CUDA 12.4 / 12.8.1, NVIDIA driver 535.x / 570.x
+- vLLM (GLM-4.5V / GPT-OSS-120B / Qwen3-VL-235B / Qwen3-Next-80B)
+- FFmpeg (ffmpeg, ffprobe)
 
-Python package details change per working directory.
+Note: Each `vllm_*` directory provisions its own virtualenv via `uv`. You can replace `module load` with your local CUDA setup if not on HPC.
+
+---
+
+## Repository structure
+
+```
+001_video2frames/            # Video → frames, heatmap/video vstack, utilities
+002_frame_captioning/        # GLM-4.5V via vLLM: per-frame captions (stride configurable)
+003_frame_detection/         # GPT-OSS-120B via vLLM: incident start-frame from captions CSV
+004_description/             # Qwen3-VL-235B: multi-image reasoning → final JSON/CSV
+005_ensemble/                # Qwen3-Next-80B: ensemble caption/reason/frame
+vllm_glm45v/                 # env + server for GLM-4.5V
+vllm_gpt-oss/                # env + server for GPT-OSS-120B
+vllm_qwen3/                  # env + servers for Qwen3-VL / Qwen3-Next
+```
+
+---
+
+## Models and local paths
+
+Default model identifiers/paths expected by scripts:
+
+- [GLM-4.5V](https://huggingface.co/zai-org/GLM-4.5V): `/data/models/zai-org/GLM-4.5V`
+- [GPT-OSS-120B](https://huggingface.co/openai/gpt-oss-120b): `/data/models/openai/gpt-oss-120b`
+- [Qwen3-VL-235B-A22B-Thinking](https://huggingface.co/Qwen/Qwen3-VL-235B-A22B-Thinking): `/data/models/Qwen/Qwen3-VL-235B-A22B-Thinking`
+- [Qwen3-Next-80B-A3B-Instruct](https://huggingface.co/Qwen/Qwen3-Next-80B-A3B-Instruct): `/data/models/Qwen/Qwen3-Next-80B-A3B-Instruct`
+
+Place model weights at the above paths, or update `run_server*.sh` to point to your local paths (or create symlinks under `/data/models`).
+
+---
+
+## Data layout (expected)
+
+The preprocessing scripts assume these directories:
+
+- Raw videos: `<Competition Data>/videos/*.mp4`
+- Heatmap videos (if provided): `<Competition Data>/heatmaps/*.mp4`
+- Output frames: `001_video2frames/gdrive_png/...`
+- VStack outputs: `001_video2frames/mp4_vstack/*.mp4` and frames under `mp4_vstack_png/...`
+
+Example (after step 1):
+
+```
+001_video2frames/
+  gdrive_png/
+    videos/<video_id>/000001.png ...
+  mp4_vstack/
+    <name>.mp4
+  mp4_vstack_png/
+    mp4_vstack/<name>/000001.png ...
+```
+
+---
+
+## Setup
+
+1) Install prerequisites
+
+    ```bash
+    # FFmpeg (Ubuntu)
+    sudo apt-get update && sudo apt-get install -y ffmpeg
+    # uv (optional but used in setup.sh)
+    pipx install uv || pip install uv
+    ```
+
+2) Prepare environments
+
+    ```bash
+    # GLM-4.5V
+    cd vllm_glm45v
+    bash setup.sh
+
+    # GPT-OSS-120B
+    cd vllm_gpt-oss
+    bash setup.sh
+
+    # Qwen3-VL-235B and Qwen3-Next-80B
+    cd vllm_qwen3
+    bash setup.sh
+    ```
+
+---
 
 ## Solution Pipeline
 
@@ -47,7 +130,7 @@ Python package details change per working directory.
         --output-root mp4_vstack_png
     ```
 
-2. **Frame Captioning**
+2. **Frame Captioning (GLM-4.5V)**
 
     Every 10 frames, run inference with GLM-4.5V to generate captions for the image frames.
 
@@ -67,7 +150,7 @@ Python package details change per working directory.
     ./run_glm45v_image_frames_infer_perception_vllm_server.sh
     ```
 
-3. **Incident/Hazard Frame Detection**
+3. **Incident/Hazard Frame Detection (GPT-OSS-120B)**
 
     Use `gpt-oss-120b` to analyze the generated captions and identify incident or hazard frames.
 
@@ -88,7 +171,26 @@ Python package details change per working directory.
     ./run_gpt-oss-120b_infer_vllm_sc_from_frames_csv.sh
     ```
 
-4. **Incident/Hazard Description**
+4. **Incident/Hazard Description (GLM-4.5V / Qwen3-VL-235B)**
+
+    Start vLLM Server
+    ```bash
+    source ./vllm_glm45v/.venv/bin/activate
+
+    ./vllm_glm45v/run_server.sh
+    ```
+
+    Run
+    ```bash
+    source ./vllm_glm45v/.venv/bin/activate
+
+    cd 004_description/scripts_glm45v
+
+    ./run_glm45v_multi_image_select_frames_from_csv_infer_vllm.sh
+    ./run_glm45v_multi_image_select_frames_from_gptoss_csv_infer_vllm_v2.sh
+
+    ./merge_submit_2csv.sh
+    ```
 
     Run inference with `Qwen3-VL-235B-A22B-Thinking` on about N frames around the detected frame to generate incident or hazard descriptions.
 
@@ -103,21 +205,25 @@ Python package details change per working directory.
     ```bash
     source ./vllm_glm45v/.venv/bin/activate
 
-    cd 004_description
+    cd 004_description/scripts_qwen3vl
 
     ./run_Qwen3VL_multi_image_select_frames_from_csv_infer_vllm_v2.sh
 
     ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v2.sh
-    ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v3_prompt_v2.sh
+
     ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v3.sh
+    ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v3_prompt_v2.sh
+
     ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v4.sh
+
     ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v5.sh
+
     ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v6.sh
 
-    ./run_Qwen3VL_multi_image_gptoss_csv_vllm_add_heatmap.sh
+    ./merge_submit_2csv.sh
     ```
 
-5. **Ensemble submission.csv**
+5. **Ensemble submission.csv (Qwen3-Next-80B)**
 
     Ensemble multiple submission.csv files generated with `Qwen3-Next-80B-A3B-Instruct`.
 
@@ -136,3 +242,9 @@ Python package details change per working directory.
 
     ./run_qwen3_next_ensemble.sh
     ```
+
+---
+
+## License
+
+Apache License 2.0. See `LICENSE.txt`.
