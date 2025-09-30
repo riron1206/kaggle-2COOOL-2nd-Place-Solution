@@ -106,9 +106,9 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
 ## Solution Pipeline
 
-[](./assets/fig1_2coool.png)
+![](./assets/fig1_2coool.png)
 
-[](./assets/fig2_2coool.png)
+![](./assets/fig2_2coool.png)
 
 1. **Video to Frames**
 
