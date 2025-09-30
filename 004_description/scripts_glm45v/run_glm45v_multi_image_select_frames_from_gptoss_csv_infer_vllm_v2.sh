@@ -95,4 +95,4 @@ done
 
 python ../src/aggregate_ans_jsons_to_csv.py \
   --root "$OUTPUT_DIR/**/" \
-  --output_csv $OUTPUT_DIR/exp002_n_sample4.csv
+  --output_csv $OUTPUT_DIR/exp002_n_sample4_step6.csv

@@ -94,4 +94,4 @@ done
 
 python ../src/aggregate_ans_jsons_to_csv.py \
   --root "$OUTPUT_DIR/**/" \
-  --output_csv $OUTPUT_DIR/run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v2.csv
+  --output_csv $OUTPUT_DIR/run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v3_prompt_v2.csv
