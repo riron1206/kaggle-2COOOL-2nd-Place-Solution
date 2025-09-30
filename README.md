@@ -173,6 +173,8 @@ Example (after step 1):
 
 4. **Incident/Hazard Description (GLM-4.5V / Qwen3-VL-235B)**
 
+    Run inference with `GLM-4.5V` on about N frames around the detected frame to generate incident or hazard descriptions.
+
     Start vLLM Server
     ```bash
     source ./vllm_glm45v/.venv/bin/activate
