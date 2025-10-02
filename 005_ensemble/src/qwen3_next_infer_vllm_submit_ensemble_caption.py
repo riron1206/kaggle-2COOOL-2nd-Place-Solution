@@ -10,8 +10,8 @@ MODEL = "/data/models/Qwen/Qwen3-Next-80B-A3B-Instruct"
 BASE_URL = "http://localhost:22002/v1"
 API_KEY = "EMPTY"
 CANONICAL_EGO = "ego-car"
-MAX_WORDS_BEFORE = 22
-MAX_WORDS_REASON = 22
+MAX_WORDS_BEFORE = 30
+MAX_WORDS_REASON = 30
 
 SYS = "You must answer in English."
 
