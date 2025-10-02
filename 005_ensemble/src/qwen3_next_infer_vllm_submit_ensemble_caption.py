@@ -13,7 +13,7 @@ CANONICAL_EGO = "ego-car"
 MAX_WORDS_BEFORE = 22
 MAX_WORDS_REASON = 22
 
-SYS = "You must answer in English."
+SYS = "Answer in English only. Strictly follow the Side‑Safe Direction Policy: never output 'left' or 'right' (including LHS/RHS and similar), and express lateral relations with side‑neutral or road‑structure terms."
 
 PROMPT_PAIR_SINGLE = """
 Ensemble the following per-csv PAIRS (caption_before, reason, frame) into a SINGLE best triple.
@@ -26,30 +26,42 @@ Task:
 1) Cluster pairs by event type primarily using the 'reason' text and optionally confirm with 'before' text.
    - Choose the MAJORITY cluster as the incident being described.
    - If there is a tie, choose the cluster whose frame is the smallest.
-2) Compose:
+2) Directional & Side‑Safe Language Policy (MUST FOLLOW for all outputs):
+   - Forbidden tokens: left, right, Left, Right, LHS, RHS, port, starboard, left-turn, right-turn, ←, →.
+   - When inputs contain these, rewrite using side‑neutral / road‑structure terms, for example:
+     • adjacent lane, same‑direction lane, oncoming lane
+     • curbside lane (nearest road edge), median‑side lane (nearest centerline/median)
+     • roadside shoulder, median, centerline, cross traffic, opposite-direction traffic
+     • “turns across {canonical_ego}'s path”, “turns toward the curbside/median‑side”
+   - If a lateral side cannot be stated without left/right, omit the side and describe only the relation
+     (e.g., “a vehicle merges into {canonical_ego}'s lane”).
+   - Do not invent compass directions (north/south/east/west) or lane counts.
+3) Compose:
    a) <caption_before>: ONE sentence describing the scene immediately BEFORE the incident.
       - Use only facts supported by the majority cluster (entities, locations, states).
       - Avoid causality/outcome words (e.g., force/forcing/causing/sudden/lane change/disruption/cuts in).
       - Present tense, active voice, ≤ {max_words_before} words; use '{canonical_ego}' for the ego reference; English only.
       - Do not include numbers/timestamps/frames.
+      - Apply the Side‑Safe Policy for any lateral/lane phrasing.
    b) <reason>: ONE sentence describing the REASON OF INCIDENT with explicit causality and effect.
       - Make entities, relations, and cause–effect explicit (agent acts → effect on {canonical_ego}/traffic).
       - Prefer consensus n-grams (CIDEr), allow light synonyms (METEOR), keep clear relations (SPICE).
       - Present tense, active voice, ≤ {max_words_reason} words; English only.
       - Do not include numbers/timestamps/frames.
+      - Apply the Side‑Safe Policy for any lateral/lane phrasing.
 3) Output the selected incident frame as a plain integer inside <incident_start_frame>.
    - From the chosen cluster, output the SMALLEST frame value among its members.
 
 Hard constraints:
-- Do not invent unseen objects, counts, directions, or maneuvers.
-- Normalize domain terms (e.g., 'ego-car' → '{canonical_ego}', 'right' → 'right lane' when lane is implied).
+- Do not invent unseen objects, counts, orientations, directions, or maneuvers.
+- Use '{canonical_ego}' exactly for the ego reference.
+- Replace any left/right mentions with Side‑Safe terms; never output the words “left” or “right”.
 
 OUTPUT FORMAT (strict; no extra text, no explanations):
 <caption_before>...</caption_before>
 <reason>...</reason>
 <incident_start_frame>...</incident_start_frame>
 """.strip()
-
 
 def _normalize_text(s):
     if not isinstance(s, str):
