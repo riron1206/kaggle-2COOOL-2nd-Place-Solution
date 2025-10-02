@@ -1,4 +1,4 @@
-# kaggle 2COOOL 2th Place Solution
+# kaggle 2COOOL 2nd Place Solution
 
 - arxiv paper: https://arxiv.org/abs/XXX
 
