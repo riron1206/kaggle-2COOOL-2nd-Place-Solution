@@ -1,10 +1,12 @@
-# kaggle 2COOOL Nth Place Solution
-
-- competition: https://www.kaggle.com/competitions/2coool
+# kaggle 2COOOL 2th Place Solution
 
 - arxiv paper: https://arxiv.org/abs/XXX
 
-- solution summary: https://www.kaggle.com/competitions/2coool/discussion/XXX
+- competition: https://www.kaggle.com/competitions/2coool
+
+- ICCV2025 leaderboard: https://2coool.net/#leaderboard
+
+![](./assets/ICCV_lb.png)
 
 ## Hardware
 
