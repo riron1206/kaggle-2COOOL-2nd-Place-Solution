@@ -35,7 +35,7 @@ if all_jsons_exist "$JSON_DIR" "$START_IDX" "$END_IDX"; then
     --collect-jsons \
     --json-dir ./output/jsons \
     --base-sub 20250927_ens2_clip20.csv \
-    --output-csv ./output/20251001_ens002_2_submit_ensemble.csv
+    --output-csv ./output/20250928_ens002_submit_ensemble.csv
 else
   echo "JSONs are not complete yet. Skipping aggregation."
 fi
