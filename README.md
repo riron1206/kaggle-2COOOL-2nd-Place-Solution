@@ -128,7 +128,10 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
         --output-root gdrive_png
 
     # mp4 vstack
-    python ./src/vstack_mp4_pairs_ffprobe.py
+    python ./src/vstack_mp4_pairs_ffprobe.py \
+        --left-dir /data/dataset/2coool/gdrive/heatmaps/ \
+        --right-dir /data/dataset/2coool/gdrive/videos/ \
+        --out-dir mp4_vstack
 
     # mp4 vstack png
     python ./src/mp4_to_png.py \
@@ -142,9 +145,8 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     Start vLLM Server
     ```bash
-    source ./vllm_glm45v/.venv/bin/activate
-
-    ./vllm_glm45v/run_server.sh
+    cd ./vllm_glm45v
+    bash ./run_server.sh
     ```
 
     Run
@@ -153,7 +155,7 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     cd 002_frame_captioning
 
-    ./run_glm45v_image_frames_infer_perception_vllm_server.sh
+    bash ./run_glm45v_image_frames_infer_perception_vllm_server.sh
     ```
 
 3. **Incident/Hazard Frame Detection (GPT-OSS-120B)**
@@ -162,10 +164,8 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     Start vLLM Server
     ```bash
-    # Python environment setup via `vllm_gpt-oss/setup.sh`
-    source ./vllm_gpt-oss/.venv/bin/activate
-
-    ./vllm_gpt-oss/run_server.sh
+    cd ./vllm_gpt-oss
+    bash ./vllm_gpt-oss/run_server.sh
     ```
 
     Run
@@ -174,7 +174,7 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     cd 003_frame_detection
 
-    ./run_gpt-oss-120b_infer_vllm_sc_from_frames_csv.sh
+    bash ./run_gpt-oss-120b_infer_vllm_sc_from_frames_csv.sh
     ```
 
 4. **Incident/Hazard Description (GLM-4.5V / Qwen3-VL-235B)**
@@ -183,9 +183,8 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     Start vLLM Server
     ```bash
-    source ./vllm_glm45v/.venv/bin/activate
-
-    ./vllm_glm45v/run_server.sh
+    cd ./vllm_glm45v
+    bash ./run_server.sh
     ```
 
     Run
@@ -194,19 +193,18 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     cd 004_description/scripts_glm45v
 
-    ./run_glm45v_multi_image_select_frames_from_csv_infer_vllm.sh
-    ./run_glm45v_multi_image_select_frames_from_gptoss_csv_infer_vllm_v2.sh
+    bash ./run_glm45v_multi_image_select_frames_from_csv_infer_vllm.sh
+    bash ./run_glm45v_multi_image_select_frames_from_gptoss_csv_infer_vllm_v2.sh
 
-    ./merge_submit_2csv.sh
+    bash ./merge_submit_2csv.sh
     ```
 
     Run inference with `Qwen3-VL-235B-A22B-Thinking` on about N frames around the detected frame to generate incident or hazard descriptions.
 
     Start vLLM Server
     ```bash
-    source ./vllm_qwen3/.venv/bin/activate
-
-    ./vllm_qwen3/run_server_qwen3vl.sh
+    cd ./vllm_qwen3
+    bash ./run_server_qwen3vl.sh
     ```
 
     Run
@@ -215,20 +213,20 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     cd 004_description/scripts_qwen3vl
 
-    ./run_Qwen3VL_multi_image_select_frames_from_csv_infer_vllm_v2.sh
+    bash ./run_Qwen3VL_multi_image_select_frames_from_csv_infer_vllm_v2.sh
 
-    ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v2.sh
+    bash ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v2.sh
 
-    ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v3.sh
-    ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v3_prompt_v2.sh
+    bash ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v3.sh
+    bash ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v3_prompt_v2.sh
 
-    ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v4.sh
+    bash ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v4.sh
 
-    ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v5.sh
+    bash ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v5.sh
 
-    ./merge_submit_2csv.sh
+    bash ./merge_submit_2csv.sh
 
-    ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v6.sh
+    bash ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v6.sh
     ```
 
 5. **Ensemble submission.csv (Qwen3-Next-80B)**
@@ -237,9 +235,8 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     Start vLLM Server
     ```bash
-    source ./vllm_qwen3/.venv/bin/activate
-
-    ./vllm_qwen3/run_server_qwen3_next.sh
+    cd ./vllm_qwen3
+    bash ./run_server_qwen3_next.sh
     ```
 
     Run
@@ -248,7 +245,7 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     cd 005_ensemble
 
-    ./run_qwen3_next_ensemble.sh
+    bash ./run_qwen3_next_ensemble.sh
     ```
 
 ---

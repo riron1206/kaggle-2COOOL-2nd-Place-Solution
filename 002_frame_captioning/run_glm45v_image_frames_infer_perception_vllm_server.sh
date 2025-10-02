@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INPUT_BASE="../001_video2frames/mp4_vstack_png/mp4_vstack"
+INPUT_BASE="../001_video2frames/mp4_vstack_png"
 OUT_DIR="./results/glm45v_image_frames_infer_perception_vllm_server"
 mkdir -p "$OUT_DIR"
 

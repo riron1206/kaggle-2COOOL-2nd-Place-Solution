@@ -10,18 +10,18 @@ from typing import Dict, List, Optional, Tuple
 
 DEFAULT_LEFT_DIR = "<Competition Data>/heatmaps"
 DEFAULT_RIGHT_DIR = "<Competition Data>/videos"
-DEFAULT_OUT_DIR = "<output>/mp4_vstack"
+DEFAULT_OUT_DIR = "mp4_vstack"
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Vertically stack mp4 files with the same name (ffmpeg required, hardened)"
     )
-    parser.add_argument("--left-dir", type=Path, default=Path(DEFAULT_LEFT_DIR),
+    parser.add_argument("--left-dir", type=Path,
                         help="Directory containing top (heatmap) mp4 files")
-    parser.add_argument("--right-dir", type=Path, default=Path(DEFAULT_RIGHT_DIR),
+    parser.add_argument("--right-dir", type=Path,
                         help="Directory containing bottom (video) mp4 files")
-    parser.add_argument("--out-dir", type=Path, default=Path(DEFAULT_OUT_DIR),
+    parser.add_argument("--out-dir", type=Path,
                         help="Output directory (default: %(default)s)")
     parser.add_argument("--width", type=int, default=None,
                         help="When specified, scale both videos to this width. If omitted, auto-adjust may occur (disable with --no-auto-width)")
@@ -242,9 +242,9 @@ def validate_mp4(path: Path, method: str) -> Tuple[bool, str]:
 def main() -> int:
     args = parse_args()
 
-    top_dir: Path = args.left_dir
-    bottom_dir: Path = args.right_dir
-    out_dir: Path = args.out_dir
+    top_dir: Path = Path(args.left_dir)
+    bottom_dir: Path = Path(args.right_dir)
+    out_dir: Path = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     top_map = find_mp4_map(top_dir)

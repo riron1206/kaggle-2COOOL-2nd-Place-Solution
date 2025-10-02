@@ -1,16 +1,10 @@
 #!/bin/bash
 
-module load cuda/12.4
+module purge
+module load gcc/64/4.1.7a1 slurm/gc1/23.02.7 gc1/cuda/12.4 gc1/cudnn/9.4.0 gc1/nccl/2.21.5 gc1/hpcx/2.18.1
 
 uv venv -p python3.10
 source .venv/bin/activate
 
-# https://huggingface.co/Qwen/Qwen3-VL-235B-A22B-Instruct
-uv pip install git+https://github.com/huggingface/transformers
-# https://github.com/QwenLM/Qwen3-VL
-uv pip install accelerate
-uv pip install qwen-vl-utils==0.0.14
-uv pip install 'vllm>=0.10.2'
+uv pip sync requirements.txt
 uv pip install -U vllm --pre --extra-index-url https://wheels.vllm.ai/nightly
-uv pip install jupyterlab papermill ipywidgets ipynbname ipyplot black isort jupyterlab_code_formatter
-uv pip install pandas

@@ -90,7 +90,7 @@ def resolve_output_dir(
     rel_info = _relative_to_any(mp4_path, input_roots)
     if rel_info is not None:
         root, rel = rel_info
-        return output_root / root.name / rel.parent / mp4_path.stem
+        return output_root / rel.parent / mp4_path.stem
 
     return output_root / mp4_path.stem
 
@@ -151,16 +151,12 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     existing_dirs = [d for d in input_dirs if d.exists()]
     if not existing_dirs:
-        print(
-            "[ERROR] No valid input directories found. Please check --input-dirs."
-        )
+        print("[ERROR] No valid input directories found. Please check --input-dirs.")
         return 2
 
     mp4_files = list(iter_mp4_files(existing_dirs, recursive=args.recursive))
     if not mp4_files:
-        print(
-            "[INFO] No mp4 files found. Check search targets and recursion settings."
-        )
+        print("[INFO] No mp4 files found. Check search targets and recursion settings.")
         return 0
 
     print(
