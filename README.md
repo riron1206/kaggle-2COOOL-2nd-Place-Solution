@@ -34,6 +34,7 @@ Note: Each `vllm_*` directory provisions its own virtualenv via `uv`. You can re
 003_frame_detection/         # GPT-OSS-120B via vLLM: incident start-frame from captions CSV
 004_description/             # Qwen3-VL-235B: multi-image reasoning → final JSON/CSV
 005_ensemble/                # Qwen3-Next-80B: ensemble caption/reason/frame
+006_2coool-studio/           # Blind A/B Test application
 vllm_glm45v/                 # env + server for GLM-4.5V
 vllm_gpt-oss/                # env + server for GPT-OSS-120B
 vllm_qwen3/                  # env + servers for Qwen3-VL / Qwen3-Next
