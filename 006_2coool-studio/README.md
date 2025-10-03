@@ -29,7 +29,7 @@ You **don’t** need all 661 videos under `data/`; any subset is fine.
 
 ```
 
-2coool-studio/
+006_2coool-studio/
 ├─ app.py              # Flask application
 ├─ csv/                # CSVs to compare (place ≥ 2 files)
 ├─ data/               # Video files (*.mp4)
@@ -42,9 +42,6 @@ You **don’t** need all 661 videos under `data/`; any subset is fine.
 ### Environment
 
 ```bash
-git clone https://github.com/turingmotors/2coool-studio.git
-cd 2coool-studio
-
 python3 -m venv .env
 source .env/bin/activate
 pip install flask
@@ -81,9 +78,9 @@ python app.py
 On startup you’ll see paths and URLs like:
 
 ```
- * CSV_DIR=/abs/path/to/2coool-studio/csv
- * DATA_DIR=/abs/path/to/2coool-studio/data
- * RESULTS_DIR=/abs/path/to/2coool-studio/results
+ * CSV_DIR=/abs/path/to/006_2coool-studio/csv
+ * DATA_DIR=/abs/path/to/006_2coool-studio/data
+ * RESULTS_DIR=/abs/path/to/006_2coool-studio/results
  * Access from Windows: http://localhost:8000
  * Running on http://127.0.0.1:8000
  * Running on http://<your-ip>:8000

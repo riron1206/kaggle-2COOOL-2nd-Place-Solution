@@ -252,7 +252,7 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
 5. **Blind A/B Test**
 
-    To determine the final submission, the submission.csv files are compared using [006_blind_test](./006_blind_test/) application.
+    To determine the final submission, the submission.csv files are compared using [006_2coool-studio](./006_2coool-studio/) application.
 
 ---
 
