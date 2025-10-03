@@ -55,7 +55,7 @@ Place model weights at the above paths, or update `run_server*.sh` to point to y
 
 ---
 
-## Data layout (expected)
+## Data layout
 
 The preprocessing scripts assume these directories:
 
