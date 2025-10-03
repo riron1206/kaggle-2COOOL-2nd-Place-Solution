@@ -233,6 +233,8 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
 
     Ensemble multiple submission.csv files generated with `Qwen3-Next-80B-A3B-Instruct`.
 
+    Copy the submission.csv file generated in Step `4. Incident/Hazard Description` into `/005_ensemble/sub_csv`. Since it has already been copied, no further action is required. To reproduce the results, place a submission.csv file with a similar filename in `/005_ensemble/sub_csv`.
+
     Start vLLM Server
     ```bash
     cd ./vllm_qwen3
