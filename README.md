@@ -26,22 +26,6 @@ Note: Each `vllm_*` directory provisions its own virtualenv via `uv`. You can re
 
 ---
 
-## Repository structure
-
-```
-001_video2frames/            # Video → frames, heatmap/video vstack, utilities
-002_frame_captioning/        # GLM-4.5V via vLLM: per-frame captions (stride configurable)
-003_frame_detection/         # GPT-OSS-120B via vLLM: incident start-frame from captions CSV
-004_description/             # Qwen3-VL-235B: multi-image reasoning → final JSON/CSV
-005_ensemble/                # Qwen3-Next-80B: ensemble caption/reason/frame
-006_2coool-studio/           # Blind A/B Test application
-vllm_glm45v/                 # env + server for GLM-4.5V
-vllm_gpt-oss/                # env + server for GPT-OSS-120B
-vllm_qwen3/                  # env + servers for Qwen3-VL / Qwen3-Next
-```
-
----
-
 ## Models and local paths
 
 Default model identifiers/paths expected by scripts:
@@ -52,29 +36,6 @@ Default model identifiers/paths expected by scripts:
 - [Qwen3-Next-80B-A3B-Instruct](https://huggingface.co/Qwen/Qwen3-Next-80B-A3B-Instruct): `/data/models/Qwen/Qwen3-Next-80B-A3B-Instruct`
 
 Place model weights at the above paths, or update `run_server*.sh` to point to your local paths (or create symlinks under `/data/models`).
-
----
-
-## Data layout
-
-The preprocessing scripts assume these directories:
-
-- Raw videos: `<Competition Data>/videos/*.mp4`
-- Heatmap videos (if provided): `<Competition Data>/heatmaps/*.mp4`
-- Output frames: `001_video2frames/gdrive_png/...`
-- VStack outputs: `001_video2frames/mp4_vstack/*.mp4` and frames under `mp4_vstack_png/...`
-
-Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-Nth-Place-Solution?tab=readme-ov-file#solution-pipeline)):
-
-```
-001_video2frames/
-  gdrive_png/
-    videos/<video_id>/000001.png ...
-  mp4_vstack/
-    <name>.mp4
-  mp4_vstack_png/
-    mp4_vstack/<name>/000001.png ...
-```
 
 ---
 
@@ -138,6 +99,17 @@ Example (after [1. Video to Frames](https://github.com/riron1206/kaggle-2COOOL-N
     python ./src/mp4_to_png.py \
         --input-dirs mp4_vstack \
         --output-root mp4_vstack_png
+    ```
+
+    The directory structure will look as follows:
+
+    ```bash
+    001_video2frames/
+    |-gdrive_png/
+      |-videos/<video_id>/000001.png ...
+      |-heatmaps/<video_id>/000001.png ...
+    |-mp4_vstack/<video_id>.mp4
+    |-mp4_vstack_png/<video_id>/000001.png ...
     ```
 
 2. **Frame Captioning (GLM-4.5V)**
