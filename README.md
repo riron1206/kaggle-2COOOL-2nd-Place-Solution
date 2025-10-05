@@ -24,7 +24,6 @@
 
 Note: Each `vllm_*` directory provisions its own virtualenv via `uv`. You can replace `module load` with your local CUDA setup if not on HPC.
 
----
 
 ## Models and local paths
 
@@ -37,7 +36,6 @@ Default model identifiers/paths expected by scripts:
 
 Place model weights at the above paths, or update `run_server*.sh` to point to your local paths (or create symlinks under `/data/models`).
 
----
 
 ## Setup
 
@@ -66,7 +64,6 @@ Place model weights at the above paths, or update `run_server*.sh` to point to y
     bash setup.sh
     ```
 
----
 
 ## Solution Pipeline
 
@@ -232,7 +229,6 @@ Place model weights at the above paths, or update `run_server*.sh` to point to y
 
     To determine the final submission, the submission.csv files are compared using [006_2coool-studio](./006_2coool-studio/) application.
 
----
 
 ## License
 
