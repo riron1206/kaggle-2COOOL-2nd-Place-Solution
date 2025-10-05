@@ -207,7 +207,7 @@ Place model weights at the above paths, or update `run_server*.sh` to point to y
 
     Ensemble multiple submission.csv files generated with `Qwen3-Next-80B-A3B-Instruct`.
 
-    Copy submission.csv files generated in step `4. Incident/Hazard Description` into `005_ensemble/sub_csv`.
+    Copy submission.csv files generated in step 4. Incident/Hazard Description into 005_ensemble/sub_csv.
     ```bash
     cd 005_ensemble
     bash ./cp_sub_csv.sh
