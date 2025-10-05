@@ -226,6 +226,8 @@ Place model weights at the above paths, or update `run_server*.sh` to point to y
     bash ./run_qwen3_next_ensemble.sh
     ```
 
+    `005_ensemble/output/20250928_ens002_submit_ensemble.csv` is the final submission file.
+
 5. **Blind A/B Test**
 
     To determine the final submission, the submission.csv files are compared using [006_2coool-studio](./006_2coool-studio/) application.
