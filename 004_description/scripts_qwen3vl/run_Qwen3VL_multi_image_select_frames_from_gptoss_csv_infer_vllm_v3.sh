@@ -61,7 +61,7 @@ run_select_and_infer() {
   local -a IMAGES
   mapfile -t IMAGES < "$FRAMES_FILE"
 
-  python src/glm45v_multi_image_infer_vllm_sc.py \
+  python ../src/glm45v_multi_image_infer_vllm_sc.py \
     --images "${IMAGES[@]}" \
     --api_base "$API_BASE" \
     --model "$MODEL" \

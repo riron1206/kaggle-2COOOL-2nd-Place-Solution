@@ -46,8 +46,8 @@ Place model weights at the above paths, or update `run_server*.sh` to point to y
     ```bash
     # FFmpeg (Ubuntu)
     sudo apt-get update && sudo apt-get install -y ffmpeg
-    # uv (optional but used in setup.sh)
-    pipx install uv || pip install uv
+    # uv (Ubuntu)
+    curl -LsSf https://astral.sh/uv/install.sh | sh
     ```
 
 2) Prepare environments
@@ -81,7 +81,6 @@ Place model weights at the above paths, or update `run_server*.sh` to point to y
     ```bash
     # Python environment setup via `vllm_glm45v/setup.sh`
     source ./vllm_glm45v/.venv/bin/activate
-
     cd 001_video2frames
 
     # mp4 to png
@@ -116,74 +115,74 @@ Place model weights at the above paths, or update `run_server*.sh` to point to y
 
     Every 10 frames, run inference with GLM-4.5V to generate captions for the image frames.
 
-    Start vLLM Server
+    Start vLLM Server.
     ```bash
     cd ./vllm_glm45v
     bash ./run_server.sh
     ```
 
-    Run
+    Run.
     ```bash
     source ./vllm_glm45v/.venv/bin/activate
-
     cd 002_frame_captioning
-
     bash ./run_glm45v_image_frames_infer_perception_vllm_server.sh
     ```
+
+    Please stop the vLLM server for the next step.
 
 3. **Incident/Hazard Frame Detection (GPT-OSS-120B)**
 
     Use `gpt-oss-120b` to analyze the generated captions and identify incident or hazard frames.
 
-    Start vLLM Server
+    Start vLLM Server.
     ```bash
     cd ./vllm_gpt-oss
     bash ./vllm_gpt-oss/run_server.sh
     ```
 
-    Run
+    Run.
     ```bash
-    source ./vllm_glm45v/.venv/bin/activate
-
+    source ./vllm_gpt-oss/.venv/bin/activate
     cd 003_frame_detection
-
     bash ./run_gpt-oss-120b_infer_vllm_sc_from_frames_csv.sh
     ```
+
+    Please stop the vLLM server for the next step.
 
 4. **Incident/Hazard Description (GLM-4.5V / Qwen3-VL-235B)**
 
     Run inference with `GLM-4.5V` on about N frames around the detected frame to generate incident or hazard descriptions.
 
-    Start vLLM Server
+    Start vLLM Server.
     ```bash
     cd ./vllm_glm45v
     bash ./run_server.sh
     ```
 
-    Run
+    Run.
     ```bash
     source ./vllm_glm45v/.venv/bin/activate
-
     cd 004_description/scripts_glm45v
 
-    bash ./run_glm45v_multi_image_select_frames_from_csv_infer_vllm.sh
+    bash ./run_glm45v_multi_image_select_frames_from_csv_infer_vllm_v2.sh
     bash ./run_glm45v_multi_image_select_frames_from_gptoss_csv_infer_vllm_v2.sh
 
     bash ./merge_submit_2csv.sh
     ```
 
+    Please stop the vLLM server for the next step.
+
     Run inference with `Qwen3-VL-235B-A22B-Thinking` on about N frames around the detected frame to generate incident or hazard descriptions.
 
-    Start vLLM Server
+    Start vLLM Server.
     ```bash
     cd ./vllm_qwen3
     bash ./run_server_qwen3vl.sh
     ```
 
-    Run
+    Run.
     ```bash
     source ./vllm_glm45v/.venv/bin/activate
-
     cd 004_description/scripts_qwen3vl
 
     bash ./run_Qwen3VL_multi_image_select_frames_from_csv_infer_vllm_v2.sh
@@ -202,24 +201,28 @@ Place model weights at the above paths, or update `run_server*.sh` to point to y
     bash ./run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v6.sh
     ```
 
+    Please stop the vLLM server for the next step.
+
 5. **Ensemble submission.csv (Qwen3-Next-80B)**
 
     Ensemble multiple submission.csv files generated with `Qwen3-Next-80B-A3B-Instruct`.
 
-    Copy the submission.csv file generated in Step `4. Incident/Hazard Description` into `/005_ensemble/sub_csv`. Since it has already been copied, no further action is required. To reproduce the results, place a submission.csv file with a similar filename in `/005_ensemble/sub_csv`.
+    Copy submission.csv files generated in step `4. Incident/Hazard Description` into `005_ensemble/sub_csv`.
+    ```bash
+    cd 005_ensemble
+    bash ./cp_sub_csv.sh
+    ```
 
-    Start vLLM Server
+    Start vLLM Server.
     ```bash
     cd ./vllm_qwen3
     bash ./run_server_qwen3_next.sh
     ```
 
-    Run
+    Run.
     ```bash
     source ./vllm_glm45v/.venv/bin/activate
-
     cd 005_ensemble
-
     bash ./run_qwen3_next_ensemble.sh
     ```
 

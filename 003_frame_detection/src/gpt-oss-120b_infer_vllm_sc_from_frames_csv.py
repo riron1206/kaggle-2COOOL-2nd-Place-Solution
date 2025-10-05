@@ -13,7 +13,9 @@ from tqdm import tqdm
 SERVER = "http://localhost:8000/v1/chat/completions"
 MODEL = "/data/models/openai/gpt-oss-120b"
 
-INPUT_CSV_DIR = "../002_frame_captioning/glm45v_image_frames_infer_perception_vllm_server"
+INPUT_CSV_DIR = (
+    "../002_frame_captioning/results/glm45v_image_frames_infer_perception_vllm_server"
+)
 OUTPUT_CSV = "./results/gpt-oss-120b_infer_vllm_sc_from_frames_csv.csv"
 
 SYSTEM = """Reasoning: high""".strip()
@@ -52,9 +54,7 @@ def chat_json(
     repetition_penalty: float = 1.0,
     n_samples: int = 8,
 ) -> List[Dict[str, Any]]:
-    schema_hint = (
-        'Return ONLY valid JSON. Schema: {"frame": int}'
-    )
+    schema_hint = 'Return ONLY valid JSON. Schema: {"frame": int}'
 
     base_url = server_url
     if "/chat/completions" in base_url:
@@ -147,7 +147,7 @@ def collect_self_consistency(
                 n_samples=cur_n,
             )
         except Exception as e:
-            print(f"[ERROR] chat_json split call failed (round {i+1}/{rounds}): {e}")
+            print(f"[ERROR] chat_json split call failed (round {i + 1}/{rounds}): {e}")
             batch = []
         all_samples.extend(batch)
 
@@ -172,12 +172,10 @@ def run_from_frames_csv(
     max_retries: int,
     per_call: int = 1,
 ) -> pd.DataFrame:
-
     video_names = []
     frames = []
     csv_paths = sorted(glob.glob(f"{input_csv_dir}/*.csv"))
     for csv_path in tqdm(csv_paths):
-
         attempt = 0
         majority_vote_frame = None
         median_frame = None
@@ -202,7 +200,9 @@ def run_from_frames_csv(
             except Exception as e:
                 print(f"[ERROR] collect_self_consistency failed on {csv_path}: {e}")
                 attempt += 1
-                print(f"[INFO] Retry {attempt}/{max_retries} for {csv_path} due to exception in collect_self_consistency")
+                print(
+                    f"[INFO] Retry {attempt}/{max_retries} for {csv_path} due to exception in collect_self_consistency"
+                )
                 if attempt < max_retries:
                     time.sleep(3)
                 continue
@@ -218,7 +218,9 @@ def run_from_frames_csv(
                 break
 
             attempt += 1
-            print(f"[INFO] Retry {attempt}/{max_retries} for {csv_path} due to invalid majority_vote_frame: {majority_vote_value}")
+            print(
+                f"[INFO] Retry {attempt}/{max_retries} for {csv_path} due to invalid majority_vote_frame: {majority_vote_value}"
+            )
             if attempt < max_retries:
                 time.sleep(3)
 
@@ -227,8 +229,13 @@ def run_from_frames_csv(
             print(f"[ERROR] Failed to get majority_vote_frame for {csv_path}")
             continue
         selected_frame = (
-            majority_vote_frame if isinstance(majority_vote_frame, int) and majority_vote_frame != -1
-            else (median_frame if isinstance(median_frame, int) and median_frame != -1 else 1)
+            majority_vote_frame
+            if isinstance(majority_vote_frame, int) and majority_vote_frame != -1
+            else (
+                median_frame
+                if isinstance(median_frame, int) and median_frame != -1
+                else 1
+            )
         )
         frames.append(int(selected_frame))
         video_names.append(video_name)
@@ -244,15 +251,24 @@ def run_from_frames_csv(
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Aggregate VLM frame-level inferences with self-consistency.")
-    parser.add_argument("--input-dir", type=str, default=INPUT_CSV_DIR, help="Input CSV directory")
-    parser.add_argument("--output-dir", type=str, default=str(Path(OUTPUT_CSV).parent), help="Output CSV directory")
+    parser = argparse.ArgumentParser(
+        description="Aggregate VLM frame-level inferences with self-consistency."
+    )
+    parser.add_argument(
+        "--input-dir", type=str, default=INPUT_CSV_DIR, help="Input CSV directory"
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=str(Path(OUTPUT_CSV).parent),
+        help="Output CSV directory",
+    )
     parser.add_argument("--max-tokens", type=int, default=512)
     parser.add_argument("--temperature", type=float, default=0.6)
     parser.add_argument("--top-p", type=float, default=0.95)
     parser.add_argument("--top-k", type=int, default=0)
     parser.add_argument("--repetition-penalty", type=float, default=1.0)
-    parser.add_argument("--n-samples", type=int, default=2*6)
+    parser.add_argument("--n-samples", type=int, default=2 * 6)
     parser.add_argument("--max-retries", type=int, default=30)
     args = parser.parse_args()
 

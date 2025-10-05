@@ -5,6 +5,8 @@ module load cuda/12.8.1 cudnn/9.10.2.21_cuda12 nccl/2.26.2-1-cuda-12.8.1 gdrcopy
 
 source .venv/bin/activate
 
+# Below are the settings for the H200 GPU.
+# If you use the H100 GPU, change it to "--gpu-memory-utilization 0.85"
 CUDA_VISIBLE_DEVICES=0,1 vllm serve /data/models/openai/gpt-oss-120b \
   --gpu-memory-utilization 0.95 \
   --tensor-parallel-size 2

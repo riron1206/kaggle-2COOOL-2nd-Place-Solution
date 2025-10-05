@@ -7,3 +7,7 @@ logs
 001_video2frames/gdrive_png
 001_video2frames/mp4_vstack
 001_video2frames/mp4_vstack_png
+vllm_gpt-oss/*_g.sh
+test_*.sh
+005_ensemble/sub_csv
+005_ensemble/20250927_ens2_clip20.csv

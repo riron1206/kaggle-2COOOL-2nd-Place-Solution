@@ -5,10 +5,12 @@ MODEL="/data/models/Qwen/Qwen3-VL-235B-A22B-Thinking"
 
 GPTOSS_CSV="../../003_frame_detection/results/gpt-oss-120b_infer_vllm_sc_from_frames_csv.csv"
 
-BASE_CSV="./results/merge_submit_2csv/20250927_ens2.csv"
-
 OUTPUT_DIR="./results/run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v6"
 mkdir -p "$OUTPUT_DIR"
+
+ORIG_BASE_CSV="./results/merge_submit_2csv/20250927_ens2.csv"
+cp "$ORIG_BASE_CSV" "$OUTPUT_DIR/20250927_ens2_clip20.csv"
+BASE_CSV="$OUTPUT_DIR/20250927_ens2_clip20.csv"
 
 PRE_FRAMES=12
 POST_FRAMES=11
@@ -63,7 +65,7 @@ run_select_and_infer() {
   local -a IMAGES
   mapfile -t IMAGES < "$FRAMES_FILE"
 
-  python src/multi_image_infer_vllm_sc_animal_count_retry.py \
+  python ../src/multi_image_infer_vllm_sc_animal_count_retry.py \
     --input_csv "$BASE_CSV" \
     --images "${IMAGES[@]}" \
     --api_base "$API_BASE" \
@@ -82,9 +84,6 @@ run_select_and_infer() {
   echo ""
 }
 
-
-OUTPUT_DIR="./tmp/run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v6"
-mkdir -p "$OUTPUT_DIR"
 
 IMAGES_DIR="../../001_video2frames/gdrive_png/videos/313"
 run_select_and_infer "$GPTOSS_CSV" "$IMAGES_DIR" "$PRE_FRAMES" "$POST_FRAMES"

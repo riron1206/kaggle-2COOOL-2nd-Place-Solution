@@ -3,11 +3,16 @@
 API_BASE="http://localhost:8000/v1"
 MODEL="/data/models/zai-org/GLM-4.5V"
 
-OUTPUT_DIR="./results/run_glm45v_multi_image_select_frames_from_csv_infer_vllm"
+OUTPUT_DIR="./results/run_glm45v_multi_image_select_frames_from_csv_infer_vllm_v2"
 mkdir -p "$OUTPUT_DIR"
 
 PRE_FRAMES=6
 POST_FRAMES=5
+
+TEMPERATURE=0.6
+TOP_P=0.95
+TOP_K=-1
+REPETITION_PENALTY=1.0
 
 run_select_and_infer() {
   local CSV="$1"
@@ -52,13 +57,18 @@ run_select_and_infer() {
   local -a IMAGES
   mapfile -t IMAGES < "$FRAMES_FILE"
 
-  python ../src/glm45v_multi_image_infer_vllm.py \
+  python ../src/glm45v_multi_image_infer_vllm_sc.py \
     --images "${IMAGES[@]}" \
     --api_base "$API_BASE" \
     --model "$MODEL" \
     --output_json "$OUTPUT_JSON" \
     --tmp_json "$OUTPUT_JSON_TMP" \
-    --json_mode
+    --json_mode \
+    --sc_at all --n_samples 4 \
+    --temperature "$TEMPERATURE" \
+    --top_p "$TOP_P" \
+    --top_k "$TOP_K" \
+    --repetition_penalty "$REPETITION_PENALTY"
 
   echo "[Info] Saved JSON: $(readlink -f "$OUTPUT_JSON")"
   echo "====================================================="

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir -p ./sub_csv
+
+cp ../004_description/scripts_glm45v/results/merge_submit_2csv/exp001_and_exp002_n_sample4_step_merged.csv ./sub_csv
+
+cp ../004_description/scripts_qwen3vl/results/merge_submit_2csv/exp004_and_exp005_n_sample4.csv ./sub_csv
+cp ../004_description/scripts_qwen3vl/results/run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v5/exp005_n_sample4_6_5_8.csv ./sub_csv
+cp ../004_description/scripts_qwen3vl/results/run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v3/exp005_n_sample4_6_5_10.csv ./sub_csv
+cp ../004_description/scripts_qwen3vl/results/run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v4/exp005_n_sample4_12_11_6.csv ./sub_csv
+cp ../004_description/scripts_qwen3vl/results/run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v3_prompt_v2/run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v3_prompt_v2.csv ./sub_csv
+
+cp ../004_description/scripts_qwen3vl/results/run_Qwen3VL_multi_image_select_frames_from_gptoss_csv_infer_vllm_v6/20250927_ens2_clip20.csv .
