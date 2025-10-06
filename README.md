@@ -134,7 +134,7 @@ Place model weights at the above paths, or update `run_server*.sh` to point to y
     Start vLLM Server.
     ```bash
     cd ./vllm_gpt-oss
-    bash ./vllm_gpt-oss/run_server.sh
+    bash ./run_server.sh
     ```
 
     Run.
