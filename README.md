@@ -1,7 +1,5 @@
 # kaggle 2COOOL 2nd Place Solution
 
-- arxiv paper: https://arxiv.org/abs/XXX
-
 - competition: https://www.kaggle.com/competitions/2coool
 
 - ICCV2025 leaderboard: https://2coool.net/#leaderboard
