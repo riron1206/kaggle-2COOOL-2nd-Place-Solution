@@ -3,7 +3,7 @@
 A lightweight Flask web app for **blind A/B evaluation** of caption/reason outputs from the [Kaggle 2COOOL competition](https://www.kaggle.com/competitions/2coool/overview).  
 It displays a video alongside two CSV-derived descriptions and lets you vote which one is better—directly in the browser.
 
-<img src="assets/2coool-studio_sample.gif" alt="Results UI" width="50%">
+<img src="assets/2coool-studio_sample_light.gif" alt="Results UI" width="50%">
 
 ## Features
 
