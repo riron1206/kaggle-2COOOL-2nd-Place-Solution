@@ -74,7 +74,6 @@ Place model weights at the above paths, or update `run_server*.sh` to point to y
     Convert videos into frames, and also prepare gaze heatmap images and vertically stacked videos with corresponding frames.
 
     ```bash
-    # Python environment setup via `vllm_glm45v/setup.sh`
     source ./vllm_glm45v/.venv/bin/activate
     cd 001_video2frames
 
